@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Core" Version="1.7.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DDDApplication.Contract\DDDApplication.Contract.csproj" />
+    <ProjectReference Include="..\DDDDomain\DDDDomain.csproj" />
+    <ProjectReference Include="..\DDDUtility\DDDUtility.csproj" />
+  </ItemGroup>
+
+</Project>

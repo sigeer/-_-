@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DDDEF\DDDEF.csproj" />
+    <ProjectReference Include="..\DDDDomain.Shared\DDDDomain.Shared.csproj" />
+    <ProjectReference Include="..\DDDUtility\DDDUtility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Permissions\" />
+  </ItemGroup>
+
+</Project>

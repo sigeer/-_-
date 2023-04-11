@@ -1,0 +1,3 @@
+namespace DDDDomain.Shared.BusinessErrorCode
+{
+}
