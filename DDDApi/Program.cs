@@ -93,7 +93,7 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging(options =>
 {
     // Customize the message template
-    options.MessageTemplate = "Request {IP,18} | {UserId,4} | {HttpMethod,8:u} | {ResponseCode} | From {Referer} | {FullPath}";
+    options.MessageTemplate = "{RequestMethod,8:u} {RequestPath} from {Referer}, responded {StatusCode} in {Elapsed} ms, [UserId: {UserId,8} | ClientIP: {ClientIp,18} | ClientAgent: {ClientAgent}]";
 
     // Emit debug-level events instead of the defaults
     options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
@@ -103,10 +103,7 @@ app.UseSerilogRequestLogging(options =>
     {
         diagnosticContext.Set("UserId", httpContext.Request.HttpContext.User.Identity?.GetUserId());
         diagnosticContext.Set("FullPath", httpContext.Request.GetEncodedUrl().ToString());
-        diagnosticContext.Set("HttpMethod", httpContext.Request.Method);
-        diagnosticContext.Set("IP", httpContext.Connection.RemoteIpAddress?.ToString());
         diagnosticContext.Set("Referer", httpContext.Request.Headers["Referer"]);
-        diagnosticContext.Set("ResponseCode", httpContext.Response.StatusCode);
     };
 });
 app.UseCors("global");

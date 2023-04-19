@@ -117,6 +117,7 @@ namespace DDDApi
                     .Enrich.WithClientIp()
                     .Enrich.WithClientAgent()
                     .Enrich.FromLogContext()
+                    .WriteTo.Console()
                     .WriteTo.Seq("http://localhost:5341/")
                 .CustomWriteTo();
             });
