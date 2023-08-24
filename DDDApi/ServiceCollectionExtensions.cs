@@ -1,4 +1,6 @@
 using AspNetCoreRateLimit;
+using DDDApi.Models;
+using DDDDomain.Users;
 using DDDEF;
 using DDDUtility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -101,6 +103,7 @@ namespace DDDApi
                     }
                 };
             });
+            services.AddScoped<IIdentityUserContainer, IdentityUserContainer>();
             #endregion
         }
 

@@ -12,6 +12,9 @@
     <PackageReference Include="SigeerUtility.DistributedCache" Version="1.0.0" />
     <PackageReference Include="SigeerUtility.Excel" Version="1.0.0" />
     <PackageReference Include="SigeerUtility.Notify.Email" Version="1.0.3" />
+
+	  <PackageReference Include="Autofac" Version="7.1.0" />
+	  <PackageReference Include="AutoMapper" Version="12.0.1" />
   </ItemGroup>
 
 </Project>

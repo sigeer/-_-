@@ -9,6 +9,7 @@ using DDDApi.Middlewares;
 using DDDApi.Models;
 using DDDApplication.Contract.Ueditor;
 using DDDDomain.Shared.Notify;
+using DDDUtility.Autofac;
 using Hangfire;
 using Microsoft.AspNetCore.Http.Extensions;
 using Serilog;
@@ -20,6 +21,10 @@ using Utility.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+var domainAssembly = Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "DDDDomain.dll"));
+var serviceAssembly = Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "DDDApplication.dll"));
+
 // Add services to the container.
 //��ȡ�����ļ������CDNUrl
 DDDUtility.AppSettingItems.CDNUrl = builder.Configuration.GetValue<string>("CDNUrl")!;
@@ -62,23 +67,24 @@ builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(serviceAssembly);
+
 builder.Host.UseSerilogCenter(builder.Configuration);
 builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 {
     builder.RegisterType<EventInterception>();
     builder.RegisterType<TimeWatcherInterception>();
-    var assemblysServices = Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "DDDApplication.dll"));
 
-    var allServices = builder.RegisterAssemblyTypes(assemblysServices);
+    var allServices = builder.RegisterAssemblyTypes(serviceAssembly);
 
     allServices.AsImplementedInterfaces()
                   .InstancePerLifetimeScope()
-                  .PropertiesAutowired()
+                  .PropertiesAutowired(new AutowiredPropertySelector())
                   .EnableInterfaceInterceptors()
                   .InterceptedBy(new Type[] { typeof(EventInterception), typeof(TimeWatcherInterception) });
 
-    builder.RegisterAssemblyTypes(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "DDDDomain.dll")))
-                .PropertiesAutowired();
+    builder.RegisterAssemblyTypes(domainAssembly)
+                .PropertiesAutowired(new AutowiredPropertySelector());
 });
 
 var app = builder.Build();
