@@ -1,5 +1,6 @@
 using DDDEF.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DDDEF
 {
@@ -151,6 +152,53 @@ namespace DDDEF
             });
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override int SaveChanges()
+        {
+            BeforeSaveChanges();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            BeforeSaveChanges();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected virtual void BeforeSaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        EmitAddEvent(entry);
+                        break;
+                    case EntityState.Modified:
+                        EmitEditEvent(entry);
+                        break;
+                    case EntityState.Deleted:
+                        EmitDeleteEvent(entry);
+                        break;
+                }
+            }
+        }
+
+
+        protected virtual void EmitAddEvent(EntityEntry entry)
+        {
+            EmitEditEvent(entry);
+        }
+
+        protected virtual void EmitEditEvent(EntityEntry entry)
+        {
+
+        }
+
+        protected virtual void EmitDeleteEvent(EntityEntry entry)
+        {
+
         }
     }
 }

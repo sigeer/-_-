@@ -26,7 +26,6 @@ var domainAssembly = Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "D
 var serviceAssembly = Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "DDDApplication.dll"));
 
 // Add services to the container.
-//��ȡ�����ļ������CDNUrl
 DDDUtility.AppSettingItems.CDNUrl = builder.Configuration.GetValue<string>("CDNUrl")!;
 UEditorConfig.Register(Path.Combine(Environment.CurrentDirectory, "appsettings.json"));
 builder.Services.AddHttpContextAccessor();

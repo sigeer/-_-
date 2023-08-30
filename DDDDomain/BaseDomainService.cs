@@ -1,4 +1,5 @@
-﻿using DDDDomain.Users;
+﻿using AutoMapper;
+using DDDDomain.Users;
 
 namespace DDDDomain
 {
@@ -6,5 +7,6 @@ namespace DDDDomain
     {
         protected IIdentityUserContainer IdentityUser { get; set; } = null!;
         protected int UserId => IdentityUser.UserId;
+        protected IMapper Mapper { get; set; } = null!;
     }
 }
