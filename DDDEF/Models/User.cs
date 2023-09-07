@@ -23,8 +23,8 @@ namespace DDDEF.Models
         public string? Avatar { get; private set; }
         public string? PhoneNumber { get; private set; }
         public int Type { get; private set; }
-        public int? Status { get; set; }
-        public DateTime? RegisterTime { get; }
+        public int Status { get; set; }
+        public DateTime RegisterTime { get; }
         public string? Email { get; private set; }
 
         private void SetLoginId(string? loginId)
