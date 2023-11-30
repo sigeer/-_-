@@ -28,7 +28,7 @@ namespace DDDDomain.Users
             {
                 name = $"User_{6.GenerateRandomStr(false)}";
             }
-            //注册只能注册学生or教师
+
             return new User(loginId, password, phoneNumber, name, userType % 2 == 0 ? 2 : 1);
         }
     }

@@ -13,7 +13,7 @@ namespace DDDEF.Models
             UpdatePhoneNumber(phoneNumber);
             UpdateName(name);
             Type = userType;
-            Status = 1;
+            SetStatus(1);
             RegisterTime = DateTime.Now;
         }
         public int Id { get; set; }
@@ -23,8 +23,8 @@ namespace DDDEF.Models
         public string? Avatar { get; private set; }
         public string? PhoneNumber { get; private set; }
         public int Type { get; private set; }
-        public int Status { get; set; }
-        public DateTime RegisterTime { get; }
+        public int Status { get; private set; }
+        public DateTime RegisterTime { get; private set; }
         public string? Email { get; private set; }
 
         private void SetLoginId(string? loginId)
@@ -76,6 +76,12 @@ namespace DDDEF.Models
                 throw new BusinessException(UserErrorCode.EmailError);
 
             Email = email;
+        }
+
+        public void SetStatus(int status)
+        {
+            if (Status != status)
+                Status = status;
         }
     }
 }

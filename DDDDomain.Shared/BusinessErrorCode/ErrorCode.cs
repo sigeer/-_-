@@ -28,13 +28,8 @@ namespace DDDDomain.Shared.BusinessErrorCode
 
         public const string OldPasswordError = "OldPasswordError";
         public const string NewPasswordError = "NewPasswordError";
-        public const string NoValidData = "NoValidData";
-        public const string QuestionType = "QuestionType";
 
-        public const string Notonline = "Notonline";
-        public const string RequestSent = "RequestSent";
-        public const string GRequestSent = "GRequestSent";
-        public const string FRequestSent = "FRequestSent";
+        public const string DataInvalid = "NoValidData";
 
         public const string OnlyOwnerCanEdit = "OnlyOwnerCanEdit";
 
