@@ -1,3 +1,4 @@
+using DDDDomain.Shared.EntityProperty;
 using DDDEF.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -193,12 +194,23 @@ namespace DDDEF
 
         protected virtual void EmitEditEvent(EntityEntry entry)
         {
-
+            {
+                if (entry.Entity is IAuditEditTime model)
+                {
+                    model.LastUpdateTime = DateTime.Now;
+                }
+            }
         }
 
         protected virtual void EmitDeleteEvent(EntityEntry entry)
         {
-
+            {
+                if (entry.Entity is ISoftDelete model)
+                {
+                    model.IsDeleted = true;
+                    entry.State = EntityState.Modified;
+                }
+            }
         }
     }
 }
