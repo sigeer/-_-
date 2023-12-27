@@ -6,7 +6,7 @@ using Utility.Files;
 namespace DDDApi.Controllers
 {
     [Authorize]
-    [Route("Download")]
+    [Route("Files")]
     public class DownloadController : Controller
     {
         readonly IFileManager _fileManager;
