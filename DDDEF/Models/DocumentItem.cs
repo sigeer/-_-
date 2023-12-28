@@ -1,9 +1,11 @@
+using DDDDomain.Shared.EntityProperty;
+
 namespace DDDEF.Models
 {
-    public class DocumentItem
+    public class DocumentItem: ISoftDelete
     {
         private DocumentItem() { }
-        public DocumentItem(string displayName, string name, string path, string? description, int? docStoreId)
+        public DocumentItem(string displayName, string name, string path, string? description, int docStoreId)
         {
             DisplayName = displayName;
             Name = name;
@@ -19,7 +21,7 @@ namespace DDDEF.Models
         public string Name { get; set; } = null!;
         public string Path { get; set; } = null!;
         public string? Description { get; set; }
-        public int? DocStoreId { get; set; }
+        public int DocStoreId { get; set; }
         public DateTime CreateTime { get; set; }
         public bool IsDeleted { get; set; }
     }

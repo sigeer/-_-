@@ -7,17 +7,15 @@ namespace DDDApi.Controllers
     public class UserController: BaseApiController
     {
         readonly IUserService _userService;
-        readonly IAuthService _authService;
 
-        public UserController(IUserService userService, IAuthService authService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _authService = authService;
         }
 
         public ResponseModel<AuthUserInfoDto?> GetUserInfo()
         {
-            return new ResponseModel<AuthUserInfoDto?>(_authService.GetUserInfo(UserId));
+            return new ResponseModel<AuthUserInfoDto?>(_userService.GetUserInfo(UserId));
         }
     }
 }
