@@ -21,6 +21,7 @@ namespace DDDEF
 
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
+        public virtual DbSet<RoleBase> RoleBase { get; set; } = null!;
         public virtual DbSet<PageBase> PageBases { get; set; } = null!;
         /* 详细权限，细化到每个api */
         public virtual DbSet<PermissionBase> PermissionBases { get; set; } = null!;

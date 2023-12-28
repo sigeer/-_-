@@ -8,6 +8,7 @@ using DDDDomain.Users;
 using DDDEF;
 using DDDEF.Models;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using Utility.CaptchaValidation;
 using Utility.Constants;
 using Utility.Extensions;
@@ -28,31 +29,6 @@ namespace DDDApplication.Auth
             _userManager = userManager;
         }
 
-        public AuthUserInfoDto? GetUserInfo(int userid)
-        {
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userid);
-            if (user != null)
-            {
-                var groupdata = _dbContext.UserRoles.Where(u => u.UserId == userid).ToList();
-                var model = new AuthUserInfoDto()
-                {
-                    Id = user.Id,
-                    Avatar = user.Avatar,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Type = user.Type,
-                    Group = groupdata.Select(x => new UserGroupDto()
-                    {
-                        Id = x.Id,
-                        UserId = x.UserId,
-                        GroupId = x.RoleId
-                    }).ToList()
-
-                };
-                return model;
-            }
-            return null;
-        }
         public (string, Claim[]?) Login(string username, string password, bool isAdmin, string ip)
         {
             if (!isAdmin)

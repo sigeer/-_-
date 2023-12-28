@@ -6,14 +6,14 @@ namespace DDDEF.Models
         {
         }
 
-        public UserRole(int? userId, int? roleId)
+        public UserRole(int userId, int roleId)
         {
             UserId = userId;
             RoleId = roleId;
         }
 
         public int Id { get; set; }
-        public int? UserId { get; set; }
-        public int? RoleId { get; set; }
+        public int UserId { get; set; }
+        public int RoleId { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace DDDApplication.Contract.Auth
         public string? Name { get; set; }
         public string? Email { get; set; }
         public int Type { get; set; }
-        public List<UserGroupDto>? Group { get; set; }
+        public List<RoleInfoDto>? Roles { get; set; }
 
     }
 }

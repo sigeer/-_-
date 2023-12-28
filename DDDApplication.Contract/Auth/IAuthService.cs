@@ -5,7 +5,6 @@ namespace DDDApplication.Contract.Auth
 {
     public interface IAuthService
     {
-        AuthUserInfoDto? GetUserInfo(int userid);
         public (string, Claim[]?) Login(string username, string password, bool isAdmin, string ip);
         string ResetPasswordSubmit(ResetPasswordModel model, int UserId);
         #region 通过验证码重置密码
