@@ -35,7 +35,7 @@ namespace DDDApplication.Document
                 }
             });
             _dbContext.DocumentItems.AddRange(fileList.Where(x => x.Id == 0).Select(x => new DocumentItem
-            (x.DisplayName, x.FileName, x.Path, x.Description, docStoreId)));
+            (x.DisplayName, x.FileName, x.Path, x.Description, docStoreId.Value)));
             _dbContext.SaveChanges();
             return docStoreId;
         }

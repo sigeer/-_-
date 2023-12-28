@@ -26,7 +26,7 @@ namespace DDDApi.Middlewares
                 var result = new ResponseModel<string>
                 {
                     Data = null!,
-                    ErrorCode = ex.Message
+                    Code = ex.Message
                 };
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(result, options: new JsonSerializerOptions

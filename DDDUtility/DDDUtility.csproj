@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SigeerUtility" Version="1.0.10.6" />
+    <PackageReference Include="SigeerUtility" Version="1.0.14.1" />
     <PackageReference Include="SigeerUtility.CaptchaValidation" Version="1.0.1" />
     <PackageReference Include="SigeerUtility.DistributedCache" Version="1.0.0" />
     <PackageReference Include="SigeerUtility.Excel" Version="1.0.0" />
+    <PackageReference Include="SigeerUtility.Files" Version="1.0.0" />
     <PackageReference Include="SigeerUtility.Notify.Email" Version="1.0.3" />
 
 	  <PackageReference Include="Autofac" Version="7.1.0" />

@@ -8,7 +8,7 @@ namespace DDDApplication.Contract.Documents
         public int Id { get; set; }
         public DateTime CreateTime { get; set; }
         public bool IsDeleted { get; set; }
-        public int? DocStoreId { get; set; }
+        public int DocStoreId { get; set; }
         public string? Description { get; set; }
         public DocumentItemDto() { }
         public DocumentItemDto(DocumentItem item)
@@ -20,7 +20,7 @@ namespace DDDApplication.Contract.Documents
             CreateTime = item.CreateTime;
             IsDeleted = item.IsDeleted;
             Description = item.Description;
-            DocStoreId = item.DocStoreId ?? 0;
+            DocStoreId = item.DocStoreId;
         }
     }
 }

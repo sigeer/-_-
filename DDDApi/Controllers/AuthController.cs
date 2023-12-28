@@ -34,7 +34,7 @@ namespace DDDApi.Controllers
             {
                 return new ResponseModel<TokenModel>(CreateToken(user.Item2!));
             }
-            return new ResponseModel<TokenModel> { ErrorCode = user.Item1 };
+            return new ResponseModel<TokenModel> { Code = user.Item1 };
         }
 
         [NonAction]
@@ -62,7 +62,7 @@ namespace DDDApi.Controllers
             {
                 return new ResponseModel<TokenModel>(CreateToken(user));
             }
-            return new ResponseModel<TokenModel> { ErrorCode = LoginCode.LoginFormInvalid };
+            return new ResponseModel<TokenModel> { Code = LoginCode.LoginFormInvalid };
         }
 
         [HttpPost]

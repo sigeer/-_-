@@ -15,7 +15,7 @@ namespace DDDApi.Controllers
         protected int UserId => User.Identity.GetUserId();
 
 
-        protected async Task<(string, FileObjectInfoWithUrl?)> UploadFile(IFileManager fileManager, IFormFile file, Func<string, long, string> fileValidFunc, DocumentType docType)
+        protected async Task<(string, FileObjectInfoWithUrl?)> UploadFile(FileManager fileManager, IFormFile file, Func<string, long, string> fileValidFunc, DocumentType docType)
         {
             if (file == null)
             {
@@ -40,7 +40,6 @@ namespace DDDApi.Controllers
                         DisplayName = savedInfo.DisplayName,
                         FileName = savedInfo.FileName,
                         RelativePath = savedInfo.RelativePath,
-                        Size = file.Length,
                     });
                 }
             }

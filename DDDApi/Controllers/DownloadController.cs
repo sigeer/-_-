@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Utility.Extensions;
 using Utility.Files;
 
+
 namespace DDDApi.Controllers
 {
     [Authorize]
     [Route("Files")]
     public class DownloadController : Controller
     {
-        readonly IFileManager _fileManager;
-        public DownloadController(IFileManager fileManager)
+        readonly FileManager _fileManager;
+        public DownloadController(FileManager fileManager)
         {
             _fileManager = fileManager;
         }

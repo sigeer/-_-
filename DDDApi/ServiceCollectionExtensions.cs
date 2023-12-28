@@ -28,7 +28,7 @@ namespace DDDApi
 
         public static void AddDDDServices(this IServiceCollection services)
         {
-            services.AddSingleton<IFileManager, DefaultLocalFileManager>(x => new DefaultLocalFileManager(AppSettingItems.GetUploadRootDir()));
+            services.AddSingleton<FileManager, DefaultLocalFileManager>(x => new DefaultLocalFileManager(AppSettingItems.GetUploadRootDir()));
         }
 
         public static void AddNotifyService(this IServiceCollection services, IConfiguration configuration)
