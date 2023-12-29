@@ -4,8 +4,7 @@ namespace DDDUtility
 {
     public partial class AppSettingItems
     {
-        public const string ConnectStr = "MySql";
-        public static string MysqlVersion { get; set; } = null!;
+        public const string MySqlConnectStr = "MySql";
         public static string CDNUrl { get; set; } = null!;
         public static string APIUrl { get; set; } = null!;
         public static string LayoutCDNUrl { get; set; } = null!;

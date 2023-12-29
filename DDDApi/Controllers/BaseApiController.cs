@@ -1,5 +1,6 @@
 using DDDApplication.Contract.Documents;
 using DDDUtility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utility.Constants;
 using Utility.Extensions;
@@ -8,6 +9,7 @@ using Utility.Files;
 namespace DDDApi.Controllers
 {
 
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class BaseApiController : ControllerBase

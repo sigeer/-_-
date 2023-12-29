@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using DDDApplication.Contract.Auth;
 using DDDApplication.Contract.Users;
+using DDDDomain.Shared.Users;
 using DDDEF.Models;
 
 namespace DDDApplication.Users
@@ -8,6 +10,7 @@ namespace DDDApplication.Users
     {
         public UserMapperProfile()
         {
+            CreateMap<AuthUserInfoModel, AuthUserInfoDto>();
             CreateMap<RoleBase, RoleInfoDto>();
         }
     }

@@ -22,7 +22,10 @@ namespace DDDApi
         {
             services.AddDbContext<StorageDbContext>(option =>
             {
-                option.UseMySql(configuration.GetConnectionString(AppSettingItems.ConnectStr), new MySqlServerVersion("8.0.27"));
+                option.UseMySql(configuration.GetConnectionString(AppSettingItems.MySqlConnectStr), MySqlServerVersion.AutoDetect(configuration.GetConnectionString(AppSettingItems.MySqlConnectStr)), o =>
+                {
+                    o.MigrationsAssembly("DDDApi");
+                });
             });
         }
 

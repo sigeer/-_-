@@ -1,5 +1,6 @@
 using DDDApplication.Contract.Auth;
 using DDDApplication.Contract.Users;
+using DDDDomain.Users;
 using DDDEF;
 
 namespace DDDApplication.Users
@@ -7,30 +8,21 @@ namespace DDDApplication.Users
     public class UserService : BaseApplicationService, IUserService
     {
         readonly StorageDbContext _dbContext;
+        readonly UserManager _userManager;
 
-        public UserService(StorageDbContext dbContext)
+        public UserService(StorageDbContext dbContext, UserManager userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
 
-        public AuthUserInfoDto? GetUserInfo(int userid)
+        public AuthUserInfoDto? GetUserInfo(int userId)
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userid);
+            var user = _userManager.GetUser(userId);
             if (user != null)
             {
-                var roleInfos = (from a in _dbContext.UserRoles
-                                 join b in _dbContext.RoleBase on a.RoleId equals b.Id
-                                 where a.UserId == userid
-                                 select b).ToList();
-                var model = new AuthUserInfoDto()
-                {
-                    Id = user.Id,
-                    Avatar = user.Avatar,
-                    Name = user.Name,
-                    Email = user.Email,
-                    Type = user.Type,
-                    Roles = Mapper.Map<List<RoleInfoDto>>(roleInfos)
-                };
+                var model = Mapper.Map<AuthUserInfoDto>(user);
+                model.Roles = Mapper.Map<List<RoleInfoDto>>(_userManager.GetUserRoleList(userId));
                 return model;
             }
             return null;

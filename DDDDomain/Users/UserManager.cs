@@ -6,7 +6,7 @@ using Utility.Extensions;
 
 namespace DDDDomain.Users
 {
-    public class UserManager
+    public partial class UserManager
     {
         readonly StorageDbContext _dbContext;
 
