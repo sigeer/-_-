@@ -2,10 +2,16 @@ using Utility.Extensions;
 
 namespace DDDUtility
 {
-    public partial class AppSettingItems
+    public class AppSettingsItem
     {
         public const string MySqlConnectStr = "MySql";
-        public static string CDNUrl { get; set; } = null!;
+        public const string PostgreSql = "PostgreSql";
+        public const string FileUrl = "FileUrl";
+        public const string RedisHost = "RedisHost";
+    }
+    public class AppSettings
+    {
+        public static string FileUrl { get; set; } = null!;
         public static string APIUrl { get; set; } = null!;
         public static string LayoutCDNUrl { get; set; } = null!;
 
@@ -24,7 +30,7 @@ namespace DDDUtility
             {
                 return relatePath;
             }
-            return CDNUrl.TrimEnd('/') + '/' + relatePath.ToRelativeUrlString();
+            return FileUrl.TrimEnd('/') + '/' + relatePath.ToRelativeUrlString();
         }
 
         public static string UploadRootDir = "Upload";

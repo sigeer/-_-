@@ -8,7 +8,7 @@ namespace DDDUtility
         {
             get
             {
-                return AppSettingItems.GetFullPath(RelativePath);
+                return AppSettings.GetFullPath(RelativePath);
             }
         }
         public string Path

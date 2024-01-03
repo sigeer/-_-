@@ -9,8 +9,10 @@ using DDDApi.Middlewares;
 using DDDApi.Models;
 using DDDApplication.Contract.Ueditor;
 using DDDDomain.Shared.Notify;
+using DDDUtility;
 using DDDUtility.Autofac;
 using Hangfire;
+using Hangfire.Redis.StackExchange;
 using Microsoft.AspNetCore.Http.Extensions;
 using Serilog;
 using Serilog.Events;
@@ -26,7 +28,7 @@ var domainAssembly = Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "D
 var serviceAssembly = Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, "DDDApplication.dll"));
 
 // Add services to the container.
-DDDUtility.AppSettingItems.CDNUrl = builder.Configuration.GetValue<string>("CDNUrl")!;
+AppSettings.FileUrl = builder.Configuration.GetValue<string>(AppSettingsItem.FileUrl)!;
 UEditorConfig.Register(Path.Combine(Environment.CurrentDirectory, "appsettings.json"));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtTokenCenter(builder.Configuration.GetSection("AuthSettings"));
@@ -39,7 +41,7 @@ builder.Services.AddDefaultCaptchaValidationService<NotifyBodyAdapter>(builder.C
 builder.Services.AddIpPolicyRateLimitSetup(builder.Configuration);
 builder.Services.AddHangfire(config =>
 {
-    config.UseRedisStorage(builder.Configuration.GetValue<string>("RedisHost"));
+    config.UseRedisStorage(builder.Configuration.GetValue<string>(AppSettingsItem.RedisHost));
 });
 builder.Services.AddHangfireServer();
 builder.Services.AddCors(options =>
@@ -109,6 +111,7 @@ app.UseSerilogRequestLogging(options =>
         diagnosticContext.Set("UserId", httpContext.Request.HttpContext.User.Identity?.GetUserId());
         diagnosticContext.Set("FullPath", httpContext.Request.GetEncodedUrl().ToString());
         diagnosticContext.Set("Referer", httpContext.Request.Headers["Referer"]);
+        diagnosticContext.Set("ClientAgent", httpContext.Request.Headers.UserAgent);
     };
 });
 app.UseCors("global");

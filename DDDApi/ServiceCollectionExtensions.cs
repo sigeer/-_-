@@ -22,7 +22,7 @@ namespace DDDApi
         {
             services.AddDbContext<StorageDbContext>(option =>
             {
-                option.UseMySql(configuration.GetConnectionString(AppSettingItems.MySqlConnectStr), MySqlServerVersion.AutoDetect(configuration.GetConnectionString(AppSettingItems.MySqlConnectStr)), o =>
+                option.UseNpgsql(configuration.GetConnectionString(AppSettingsItem.PostgreSql), o =>
                 {
                     o.MigrationsAssembly("DDDApi");
                 });
@@ -31,7 +31,7 @@ namespace DDDApi
 
         public static void AddDDDServices(this IServiceCollection services)
         {
-            services.AddSingleton<FileManager, DefaultLocalFileManager>(x => new DefaultLocalFileManager(AppSettingItems.GetUploadRootDir()));
+            services.AddSingleton<FileManager, DefaultLocalFileManager>(x => new DefaultLocalFileManager(AppSettings.GetUploadRootDir()));
         }
 
         public static void AddNotifyService(this IServiceCollection services, IConfiguration configuration)
@@ -83,7 +83,7 @@ namespace DDDApi
                         //Token expired
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
-                            context.Response.Headers.Add("Token-Expired", "true");
+                            context.Response.Headers.Append("Token-Expired", "true");
                         }
 
                         return Task.CompletedTask;
@@ -121,7 +121,6 @@ namespace DDDApi
                     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                     .MinimumLevel.Override("Hangfire", LogEventLevel.Warning)
                     .Enrich.WithClientIp()
-                    .Enrich.WithClientAgent()
                     .Enrich.FromLogContext()
                     .WriteTo.Console()
                     .WriteTo.Seq("http://localhost:5341/")

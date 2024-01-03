@@ -30,9 +30,6 @@ namespace DDDEF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("utf8_general_ci")
-                .HasCharSet("utf8");
-
             modelBuilder.Entity<DocumentItem>(entity =>
             {
                 entity.ToTable("documentitem");
