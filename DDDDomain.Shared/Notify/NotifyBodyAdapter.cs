@@ -9,9 +9,8 @@ namespace DDDDomain.Shared.Notify
         public NotifyBody SerilizeBody(Type typeOfNotifyBase, TemplateType model, params string[] data)
         {
             if (typeOfNotifyBase == typeof(EmailNotify))
-            {
                 return new EmailMessageBody() { Title = model.Title, Content = string.Format(model.TemplateData!, data[0]) };
-            }
+
             throw new Exception("不支持的NotifyType");
         }
     }

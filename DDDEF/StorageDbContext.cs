@@ -36,7 +36,7 @@ namespace DDDEF
 
                 entity.Property(e => e.Id).HasColumnName("Id");
 
-                entity.Property(e => e.CreateTime).HasMaxLength(6);
+                entity.Property(e => e.CreationTime).HasMaxLength(6);
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(200);
@@ -61,7 +61,7 @@ namespace DDDEF
 
                 entity.Property(e => e.TypeId).HasColumnName("TypeId");
 
-                entity.Property(e => e.CreateTime).HasMaxLength(6);
+                entity.Property(e => e.CreationTime).HasMaxLength(6);
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(200);
@@ -188,6 +188,12 @@ namespace DDDEF
         protected virtual void EmitAddEvent(EntityEntry entry)
         {
             EmitEditEvent(entry);
+            {
+                if (entry.Entity is IAuditCreateTime model)
+                {
+                    model.CreationTime = DateTime.Now;
+                }
+            }
         }
 
         protected virtual void EmitEditEvent(EntityEntry entry)

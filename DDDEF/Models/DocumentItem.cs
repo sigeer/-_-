@@ -2,7 +2,7 @@ using DDDDomain.Shared.EntityProperty;
 
 namespace DDDEF.Models
 {
-    public class DocumentItem: ISoftDelete
+    public class DocumentItem: ISoftDelete, IAuditCreateTime
     {
         private DocumentItem() { }
         public DocumentItem(string displayName, string name, string path, string? description, int docStoreId)
@@ -12,7 +12,7 @@ namespace DDDEF.Models
             Path = path;
             Description = description;
             DocStoreId = docStoreId;
-            CreateTime = DateTime.Now;
+            CreationTime = DateTime.Now;
             IsDeleted = false;
         }
 
@@ -22,7 +22,7 @@ namespace DDDEF.Models
         public string Path { get; set; } = null!;
         public string? Description { get; set; }
         public int DocStoreId { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTime CreationTime { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

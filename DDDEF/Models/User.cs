@@ -50,7 +50,7 @@ namespace DDDEF.Models
 
         public void UpdatePassword(string? password)
         {
-            if (string.IsNullOrEmpty(password))
+            if (string.IsNullOrWhiteSpace(password))
                 throw new BusinessException(ErrorCode.FormInvalid);
 
             Password = password;
@@ -58,10 +58,10 @@ namespace DDDEF.Models
 
         public void UpdatePhoneNumber(string? phoneNumber)
         {
-            if (string.IsNullOrEmpty(phoneNumber) && !string.IsNullOrEmpty(PhoneNumber))
+            if (string.IsNullOrWhiteSpace(phoneNumber) && !string.IsNullOrWhiteSpace(PhoneNumber))
                 throw new BusinessException(UserErrorCode.PhoneNumberRequired);
 
-            if (!string.IsNullOrEmpty(phoneNumber) && !phoneNumber.IsMobilePhoneNumber())
+            if (!string.IsNullOrWhiteSpace(phoneNumber) && !phoneNumber.IsMobilePhoneNumber())
                 throw new BusinessException(UserErrorCode.PhoneNumberError);
 
             PhoneNumber = phoneNumber;
@@ -69,10 +69,10 @@ namespace DDDEF.Models
 
         public void UpdateEmail(string? email)
         {
-            if (string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(Email))
+            if (string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(Email))
                 throw new BusinessException(UserErrorCode.EmailRequired);
 
-            if (!string.IsNullOrEmpty(email) && !email.IsEmail())
+            if (!string.IsNullOrWhiteSpace(email) && !email.IsEmail())
                 throw new BusinessException(UserErrorCode.EmailError);
 
             Email = email;
