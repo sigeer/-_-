@@ -1,4 +1,7 @@
 using DDDDomain.Shared.EntityProperty;
+using DDDDomain.Users;
+using DDDEF.Controllers;
+using DDDEF.EntityLog;
 using DDDEF.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -7,13 +10,16 @@ namespace DDDEF
 {
     public class StorageDbContext : DbContext
     {
-        public StorageDbContext()
+        int UserId { get; set; }
+        public StorageDbContext(IIdentityUserContainer identityUserContainer)
         {
+            UserId = identityUserContainer.UserId;
         }
 
-        public StorageDbContext(DbContextOptions<StorageDbContext> options)
+        public StorageDbContext(IIdentityUserContainer identityUserContainer, DbContextOptions<StorageDbContext> options)
             : base(options)
         {
+            UserId = identityUserContainer.UserId;
         }
 
         public virtual DbSet<DocumentItem> DocumentItems { get; set; } = null!;
@@ -156,15 +162,20 @@ namespace DDDEF
         public override int SaveChanges()
         {
             BeforeSaveChanges();
-            return base.SaveChanges();
+            var saved = base.SaveChanges();
+            AfterSaveChanges();
+            return saved;
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             BeforeSaveChanges();
-            return base.SaveChangesAsync(cancellationToken);
+            var saved = base.SaveChangesAsync(cancellationToken);
+            AfterSaveChanges();
+            return saved;
         }
 
+        public event EventHandler<IEnumerable<EntityEntry>>? OnBeforeChanges;
         protected virtual void BeforeSaveChanges()
         {
             foreach (var entry in ChangeTracker.Entries())
@@ -181,7 +192,39 @@ namespace DDDEF
                         EmitDeleteEvent(entry);
                         break;
                 }
+
+                if (entry.Entity is IEntity)
+                {
+                    var tableName = entry.CurrentValues.EntityType.GetTableName();
+                    if (!string.IsNullOrEmpty(tableName))
+                    {
+                        Logs.Enqueue(new EntityLogContext()
+                        {
+                            OldEntity = entry.State == EntityState.Added ? null : entry.OriginalValues.ToObject(),
+                            NewEntity = null,
+                            TableName = tableName,
+                            Type = entry.State.GetTypeFromEntityState(),
+                            Ref = entry
+                        });
+                    }
+                }
             }
+        }
+
+        public event EventHandler<IEnumerable<EntityEntry>>? OnAfterChanges;
+        protected virtual void AfterSaveChanges()
+        {
+            while (Logs.TryDequeue(out var log))
+            {
+                log.NewEntity = log.Ref.Entity;
+                if (log.Type == EntityLogContext.TYPE_DELETE)
+                    log.NewEntity = null;
+
+                log.TablePrimaryId = log.Ref.CurrentValues.GetValue<int>(nameof(IEntityLog.Id));
+                this.GenerateRecord(log.TableName, log.TablePrimaryId, log.Type, log.OldEntity, log.NewEntity, 0);
+            }
+
+            OnAfterChanges?.Invoke(this, ChangeTracker.Entries());
         }
 
 
@@ -216,5 +259,7 @@ namespace DDDEF
                 }
             }
         }
+
+        Queue<EntityLogContext> Logs = new Queue<EntityLogContext>();
     }
 }

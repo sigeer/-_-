@@ -6,7 +6,7 @@ namespace DDDApplication.Contract.Documents
     public class DocumentItemDto : FileObjectInfoWithUrl
     {
         public int Id { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTime CreationTime { get; set; }
         public bool IsDeleted { get; set; }
         public int DocStoreId { get; set; }
         public string? Description { get; set; }
@@ -17,7 +17,7 @@ namespace DDDApplication.Contract.Documents
             FileName = item.Name;
             DisplayName = item.DisplayName;
             Path = item.Path;
-            CreateTime = item.CreateTime;
+            CreationTime = item.CreationTime;
             IsDeleted = item.IsDeleted;
             Description = item.Description;
             DocStoreId = item.DocStoreId;
