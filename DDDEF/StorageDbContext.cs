@@ -174,7 +174,7 @@ namespace DDDEF
             return saved;
         }
 
-        public event EventHandler<IEnumerable<EntityEntry>>? OnBeforeChanges;
+        public static event EventHandler<IEnumerable<EntityEntry>>? OnBeforeChanges;
         protected virtual void BeforeSaveChanges()
         {
             foreach (var entry in ChangeTracker.Entries())
@@ -210,7 +210,7 @@ namespace DDDEF
             }
         }
 
-        public event EventHandler<IEnumerable<EntityEntry>>? OnAfterChanges;
+        public static event EventHandler<IEnumerable<EntityEntry>>? OnAfterChanges;
         protected virtual void AfterSaveChanges()
         {
             while (Logs.TryDequeue(out var log))
