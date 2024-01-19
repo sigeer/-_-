@@ -1,4 +1,3 @@
-using DDDDomain.Shared.EntityProperty;
 using DDDDomain.Users;
 using DDDEF.Controllers;
 using DDDEF.EntityLog;
@@ -232,7 +231,7 @@ namespace DDDEF
         {
             EmitEditEvent(entry);
             {
-                if (entry.Entity is IAuditCreateTime model)
+                if (entry.Entity is ICreationTime model)
                 {
                     model.CreationTime = DateTime.Now;
                 }
@@ -242,7 +241,7 @@ namespace DDDEF
         protected virtual void EmitEditEvent(EntityEntry entry)
         {
             {
-                if (entry.Entity is IAuditEditTime model)
+                if (entry.Entity is IUpdateTime model)
                 {
                     model.LastUpdateTime = DateTime.Now;
                 }

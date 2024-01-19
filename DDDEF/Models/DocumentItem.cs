@@ -1,8 +1,8 @@
-using DDDDomain.Shared.EntityProperty;
+using DDDEF.Controllers;
 
 namespace DDDEF.Models
 {
-    public class DocumentItem: ISoftDelete, IAuditCreateTime
+    public class DocumentItem : ISoftDelete, ICreationTime
     {
         private DocumentItem() { }
         public DocumentItem(string displayName, string name, string path, string? description, int docStoreId)
