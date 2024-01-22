@@ -192,7 +192,7 @@ namespace DDDEF
                         break;
                 }
 
-                if (entry.Entity is IEntity)
+                if (entry.Entity is IEntityLog)
                 {
                     var tableName = entry.CurrentValues.EntityType.GetTableName();
                     if (!string.IsNullOrEmpty(tableName))
