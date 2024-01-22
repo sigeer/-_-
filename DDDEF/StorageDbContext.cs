@@ -158,6 +158,17 @@ namespace DDDEF
             base.OnModelCreating(modelBuilder);
         }
 
+        protected int SaveChangesWithoutFlow()
+        {
+            return base.SaveChanges();
+        }
+
+        protected Task<int> SaveChangesWithoutFlowAsync()
+        {
+            return base.SaveChangesAsync();
+        }
+
+
         public override int SaveChanges()
         {
             BeforeSaveChanges();
@@ -216,7 +227,7 @@ namespace DDDEF
             while (Logs.TryDequeue(out var log))
             {
                 log.NewEntity = log.Ref.Entity;
-                if (log.Type == EntityLogContext.TYPE_DELETE)
+                if (log.Type == EntityLogType.Delete && log.NewEntity is not ISoftDelete)
                     log.NewEntity = null;
 
                 log.TablePrimaryId = log.Ref.CurrentValues.GetValue<int>(nameof(IEntityLog.Id));

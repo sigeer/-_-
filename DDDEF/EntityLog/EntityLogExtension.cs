@@ -5,7 +5,7 @@ namespace DDDEF.EntityLog
 {
     public static class EntityLogExtension
     {
-        public static EntityLog? GenerateRecord(this DbContext dbContext, string? tableName, int tablePrimaryId, int type, object? oldObj, object? newObj, int userId)
+        public static EntityLog? GenerateRecord(this DbContext dbContext, string? tableName, int tablePrimaryId, EntityLogType type, object? oldObj, object? newObj, int userId)
         {
             if (string.IsNullOrEmpty(tableName))
                 return null;
@@ -92,24 +92,26 @@ namespace DDDEF.EntityLog
                 }
                 var oldPairs = oldValueList == null ? null : oldValueList.Substring(0, oldValueList.Length - 1) + "}";
                 var newPairs = newValueList == null ? null : newValueList?.Substring(0, newValueList.Length - 1) + "}";
-                var dbModel = new EntityLog(tableName, tablePrimaryId, type, oldPairs, newPairs, userId);
+                var dbModel = new EntityLog(tableName, type, tablePrimaryId, oldPairs, newPairs, userId);
 
-                dbContext.Database.ExecuteSql($"insert into table_log (`TableName`, `TablePrimaryId`, `OldValuePairs`, `NewValuePairs`, `UserId`, `CreateTime`) values({dbModel.TableName}, {dbModel.TablePrimaryId}, {dbModel.OldValuePairs}, {dbModel.NewValuePairs}, {dbModel.UserId}, {dbModel.CreationTime});");
+                dbContext.Database.ExecuteSql($"insert into table_log (`TableName`, `TablePrimaryId`, `Type`, `OldValuePairs`, `NewValuePairs`, `UserId`, `CreateTime`) values({dbModel.TableName}, {dbModel.TablePrimaryId}, {dbModel.Type}, {dbModel.OldValuePairs}, {dbModel.NewValuePairs}, {dbModel.UserId}, {dbModel.CreationTime});");
                 return dbModel;
             }
             return null;
         }
 
-        public static int GetTypeFromEntityState(this EntityState state)
+        public static EntityLogType GetTypeFromEntityState(this EntityState state)
         {
             switch (state)
             {
+                case EntityState.Modified:
+                    return EntityLogType.Update;
                 case EntityState.Deleted:
-                    return EntityLogContext.TYPE_DELETE;
+                    return EntityLogType.Delete;
                 case EntityState.Added:
-                    return EntityLogContext.TYPE_ADD;
+                    return EntityLogType.Add;
                 default:
-                    return EntityLogContext.TYPE_ADD;
+                    return EntityLogType.None;
             }
         }
     }

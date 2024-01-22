@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Utility.Extensions;
 
 namespace DDDEF.EntityLog
 {
@@ -9,11 +8,11 @@ namespace DDDEF.EntityLog
         {
         }
 
-        public EntityLog(string tableName, int tablePrimaryId, int type, string? oldValuePairs, string? newValuePairs, int userId)
+        public EntityLog(string tableName, EntityLogType type, int tablePrimaryId, string? oldValuePairs, string? newValuePairs, int userId)
         {
             TableName = tableName;
             TablePrimaryId = tablePrimaryId;
-            Type = type;
+            Type = type.GetDescription();
             OldValuePairs = oldValuePairs;
             NewValuePairs = newValuePairs;
             UserId = userId;
@@ -23,7 +22,7 @@ namespace DDDEF.EntityLog
         public int Id { get; set; }
         public string TableName { get; private set; } = null!;
         public int TablePrimaryId { get; private set; }
-        public int Type { get; private set; }
+        public string Type { get; private set; } = EntityLogType.None.GetDescription();
         public string? OldValuePairs { get; private set; }
         public string? NewValuePairs { get; private set; }
         public int UserId { get; private set; }
