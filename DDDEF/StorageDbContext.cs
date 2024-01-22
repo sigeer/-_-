@@ -231,7 +231,7 @@ namespace DDDEF
                     log.NewEntity = null;
 
                 log.TablePrimaryId = log.Ref.CurrentValues.GetValue<int>(nameof(IEntityLog.Id));
-                this.GenerateRecord(log.TableName, log.TablePrimaryId, log.Type, log.OldEntity, log.NewEntity, 0);
+                this.GenerateRecord(log.TableName, log.TablePrimaryId, log.Type, log.OldEntity, log.NewEntity, UserId);
             }
 
             OnAfterChanges?.Invoke(this, ChangeTracker.Entries());
