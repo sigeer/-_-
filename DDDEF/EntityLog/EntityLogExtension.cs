@@ -83,21 +83,20 @@ namespace DDDEF.EntityLog
                     }
                 }
             }
-            if (!string.IsNullOrEmpty(newValueList))
-            {
-                //if there have some columns data changed then record log
-                if (newValueList == oldValueList)
-                {
-                    return null;
-                }
-                var oldPairs = oldValueList == null ? null : oldValueList.Substring(0, oldValueList.Length - 1) + "}";
-                var newPairs = newValueList == null ? null : newValueList?.Substring(0, newValueList.Length - 1) + "}";
-                var dbModel = new EntityLog(tableName, type, tablePrimaryId, oldPairs, newPairs, userId);
 
-                dbContext.Database.ExecuteSql($"insert into table_log (`TableName`, `TablePrimaryId`, `Type`, `OldValuePairs`, `NewValuePairs`, `UserId`, `CreateTime`) values({dbModel.TableName}, {dbModel.TablePrimaryId}, {dbModel.Type}, {dbModel.OldValuePairs}, {dbModel.NewValuePairs}, {dbModel.UserId}, {dbModel.CreationTime});");
-                return dbModel;
-            }
-            return null;
+            if (newValueList == oldValueList && type != EntityLogType.Delete)
+                return null;
+
+            if (string.IsNullOrEmpty(newValueList) && type != EntityLogType.Delete)
+                return null;
+
+            var oldPairs = oldValueList == null ? null : oldValueList.Substring(0, oldValueList.Length - 1) + "}";
+            var newPairs = newValueList == null ? null : newValueList?.Substring(0, newValueList.Length - 1) + "}";
+            var dbModel = new EntityLog(tableName, type, tablePrimaryId, oldPairs, newPairs, userId);
+
+            // 这里修改entity log的保存方式
+            dbContext.Database.ExecuteSql($"insert into table_log (`TableName`, `TablePrimaryId`, `Type`, `OldValuePairs`, `NewValuePairs`, `UserId`, `CreateTime`) values({dbModel.TableName}, {dbModel.TablePrimaryId}, {dbModel.Type}, {dbModel.OldValuePairs}, {dbModel.NewValuePairs}, {dbModel.UserId}, {dbModel.CreationTime});");
+            return dbModel;
         }
 
         public static EntityLogType GetTypeFromEntityState(this EntityState state)
